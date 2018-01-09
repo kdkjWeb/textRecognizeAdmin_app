@@ -1,0 +1,52 @@
+{
+      "title": "好友",
+      "friendsList": [{
+        "friendsId": 1,
+        "friendsName": "好友1",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 2,
+        "friendsName": "好友2",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 3,
+        "friendsName": "好友3",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 4,
+        "friendsName": "好友4",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 5,
+        "friendsName": "好友5",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 6,
+        "friendsName": "好友6",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 7,
+        "friendsName": "好友7",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 8,
+        "friendsName": "好友8",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 9,
+        "friendsName": "好友9",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 10,
+        "friendsName": "好友10",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 11,
+        "friendsName": "好友11",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      },{
+        "friendsId": 12,
+        "friendsName": "好友12",
+        "friendsSrc": "http://www.qqzhi.com/uploadpic/2014-09-24/084641953.jpg"
+      }]
+}
