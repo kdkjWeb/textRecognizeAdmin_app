@@ -3,7 +3,7 @@
 		<div class="header">
 			<mu-appbar 
 			style="text-align:center"
-			title="代理">
+			title="用户">
 				<mu-icon-button 
 			    icon="" 
 			    slot="left"/>
@@ -51,50 +51,55 @@
 		<mu-dialog 
 		:open="editDialog.show" 
 		@close="editCancel"
-		style="padding: 0">
+		style="padding: 0;"
+		:dialogClass="['dialogClass']">
 			<header>
-				<div class="header">
-					<mu-avatar
-					:size="70" 
-					slot="left" 
-					src="/static/header2.jpg"/>
+				<div id="header">
+					<div class="header">
+						<mu-avatar
+						:size="70" 
+						slot="left" 
+						src="/static/header2.jpg"/>
+					</div>
+					<div class="info">
+						<p>
+							<span>昵称:</span>
+							<span>会飞的肥肉</span>
+						</p>
+						<p>
+							<span>账号:</span>
+							<span>1234567890</span>
+						</p>
+						<p>
+							<span>等级:</span>
+							<span>1</span>
+						</p>
+					</div>
 				</div>
-				<div class="info">
-					<p>
-						<span>昵称:</span>
-						<span>会飞的肥肉</span>
-					</p>
-					<p>
-						<span>账号:</span>
-						<span>1234567890</span>
-					</p>
-					<p>
-						<span>等级:</span>
-						<span>1</span>
-					</p>
+				<div class="agents">
+					 <p>
+					 	<span>所属代理商:</span>
+					 	<span>发抖的小喵喵</span>/
+					 	<span>13554654789</span>
+					 </p>
 				</div>
 			</header>
-			<div>
-				<div class="options">
-					<div class="up_Low">
-						<mu-select-field 
-						v-model="editDialog.model.level"
-						label="升降级" 
-						fullWidth>
-						    <!-- <mu-menu-item 
-						    v-for="lev,index in levelList" 
-						    :key="index" 
-						    :value="lev.key" 
-						    :title="lev.label" /> -->
-						    <mu-menu-item value="1" title="1"/>
-						    <mu-menu-item value="2" title="2"/>
-						    <mu-menu-item value="3" title="3"/>
-					    </mu-select-field>
-					</div>
-					<div class="date">
-						<span style="font-size:13px">代理时间:</span><mu-date-picker hintText="请选择"/>
-					</div>
-				</div>
+			<div class="choose">
+				<span>提升为代理商:</span>
+				<mu-radio label="是" 
+				name="group" 
+				nativeValue="yes" 
+				v-model="editDialog.value" 
+				class="demo-radio"
+				:labelClass="['labelClass']"
+				/>
+				<mu-radio label="否" 
+				name="group" 
+				nativeValue="no" 
+				v-model="editDialog.value" 
+				class="demo-radio"
+				:labelClass="['labelClass']"
+				/>	
 			</div>
 			<footer>
 				<mu-raised-button 
@@ -112,10 +117,16 @@
 </template>
 
 <script type="text/javascript">
-	export {default} from './proxyController'
+	export {default} from './userlistController'
 </script>
 <style type="text/css">
 	.mu-dialog-body{padding: 0 !important;}
+	.dialogClass{
+		width: 90%;
+	}
+	.labelClass{
+		padding-right: 10px;
+	}
 </style>
 
 <style type="text/css" scoped>
@@ -161,14 +172,16 @@
 	 */
 	
 	header{
-		display: flex;
 		background-color: #039be5;
-		padding: 5% 10%;
+		padding: 5% 7%;
 	}
-	header .header{
+	#header{
+		display: flex;
+	}
+	#header .header{
 		margin: 5px 20px 0 0;
 	}
-	header p{
+	#header p{
 		margin-bottom: 10px;
 		font-size: 13px;
 		color: #fff;
@@ -179,8 +192,29 @@
 	footer{
 		padding: 5% 10%;
 		display: flex;
-
 		justify-content: space-between;
 		width: 100%;
+	}
+	.agents{
+		color: #fff;
+	}
+	.agents span{
+		font-size: 14px;
+	}
+	.agents span:nth-child(2){
+		margin-right: 8px;
+	}
+	.choose{
+		display: flex;
+  		align-items: center;
+  		justify-content: center;
+  		margin: 7% 0;
+  		color: #000;
+	}
+	.choose span{
+		margin-right: 10px;
+	}
+	.demo-radio{
+		padding-right: 3%;
 	}
 </style>

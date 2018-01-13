@@ -19,11 +19,17 @@
 			    <mu-bottom-nav-item 
 			    value="people_outline" 
 			    title="用户"
+			    :to="{
+			    	name: 'UserList'
+			    }"
 			    icon="people_outline"/>
 
 			    <mu-bottom-nav-item 
 			    value="person" 
-			    title="我的" 
+			    title="我的"
+			    :to="{
+			    	name: 'Mine'
+			    }" 
 			    icon="person"/>
 			  </mu-bottom-nav>
 			</mu-paper>

@@ -1,4 +1,4 @@
-import services from './proxyServices'
+import services from './userlistServices'
 import scroll from 'better-scroll'
 export default {
 	data() {
@@ -70,12 +70,7 @@ export default {
 
 			editDialog: {
 				show: false,
-				model: {
-					id: '',
-					nickName: '',
-					level: '',
-					date: '',
-				}, 
+				value: 'yes',
 			},
 
 			levelList: [
@@ -95,7 +90,7 @@ export default {
 		}
 	},
 	created() {
-		this.height = (window.innerHeight -112) + 'px';
+		this.height = (window.innerHeight-112) + 'px';
 	},
 	methods:{
 		search() {
@@ -104,6 +99,7 @@ export default {
 
 		editSubmit() {
 			this.editDialog.show = false
+			console.log(this.editDialog.value)
 		},
 		editCancel() {
 			this.editDialog.show = false
@@ -111,13 +107,13 @@ export default {
 		
 	},
 	mounted() {
-		//使用better-scroll 滚动插件 
+		//使用 better-scroll滚动插件
 		this.$nextTick(()=>{
 			new scroll(this.$refs['userList'],{
 				click: true
 			})
 		})
-
+		
 		// 监听窗口改变重置高度
         window.addEventListener('resize', () => {
             this.height = (window.innerHeight-112) + 'px';

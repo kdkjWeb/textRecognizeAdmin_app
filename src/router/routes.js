@@ -5,6 +5,13 @@ const Login = ()=>import('@/pages/login/login'), // 登录
 	  ProxyUsers = ()=>import('@/pages/proxy/proxy') //代理
 
 
+const Mine = ()=>import('@/pages/mine/mine'),   //我的 
+	  ChangeName =()=>import('@/pages/changeName/changename'),   //修改用户名
+ 	  ChangePassword =()=>import('@/pages/changePassword/changepassword'),    //修改密码
+ 	  SysMessageList = ()=>import('@/pages/sysMessageList/sysMessageList'), //推送消息列表
+ 	  SysMessageDetail = ()=>import('@/pages/sysMessageDetail/sysMessageDetail'), //系统消息
+ 	  UserList =()=>import('@/pages/userList/userlist')
+ 	 
 export default {
 	routes: [
 		{
@@ -22,8 +29,39 @@ export default {
 					path: 'proxy',
 					name: 'ProxyUsers',
 					component: ProxyUsers
+				},
+				{
+					path: 'mine',
+					name: 'Mine',
+					component: Mine
+				},
+				{
+					path: 'userlist',
+					name: 'UserList',
+					component: UserList
 				}
 			]
 		},
+		
+		{
+			path: '/changename',
+			name: '/ChangeName',
+			component: ChangeName
+		},
+		{
+			path: '/changePassword',
+			name: '/ChangePassword',
+			component: ChangePassword
+		},
+		{
+			path: '/sysMessageList',
+			name: 'SysMessageList',
+			component: SysMessageList
+		},
+		{
+			path: '/sysMessageDetail',
+			name: 'SysMessageDetail',
+			component: SysMessageDetail
+		}
 	]
 }
