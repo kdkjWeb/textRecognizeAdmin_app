@@ -20,7 +20,10 @@
 		<div class="content">
 			<div class="middle">
 				<div class="search">
-					<input type="text" placeholder="搜索用户">
+					<input type="text" 
+					placeholder="根据电话号码搜索" 
+					v-model="searchModel"
+					 @keyup="selectUp">
 					<div class="verLine"></div>
 					<mu-icon 
 					value="search"
@@ -32,10 +35,11 @@
 					<mu-list-item
 					v-for="user, index in userList"
 					:key="index"
-					style="border-bottom:1px solid #fafafa" 
-					:title="user.userName">
+					style="border-bottom:1px solid #fafafa"
+					:title="user.nickname +' ('+ user.phone +')'"
+					>
 				      <mu-avatar 
-				      :src="user.header" 
+				      :src="user.pictureAddress?'static/headImg/'+user.pictureAddress+'.jpg':'static/headImg/6.jpg'"  
 				      slot="leftAvatar"/>
 				      <mu-icon 
 				      value="border_color"
@@ -43,7 +47,10 @@
 				      slot="right"
 				      @click="editDialog.show = true"/>
 				    </mu-list-item>
+				<span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
+				    
 				</mu-list>
+
 			</div>
 		</div>
 
@@ -216,5 +223,17 @@
 	}
 	.demo-radio{
 		padding-right: 3%;
+	}
+	
+	.loadingMore{
+		
+		display: block;
+		width: 100%;
+		height:35px;
+		line-height: 35px;
+		background: rgba(0,0,0,.1);
+		/*background: red;*/
+		text-align: center;
+		color: #fff;
 	}
 </style>

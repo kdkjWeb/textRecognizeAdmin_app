@@ -1,11 +1,7 @@
+import {has, getItem , setItem, removeItem} from '@/utils/localStorage'
 export default {
 	data() {
 		return {
-			user: {
-				userName: '巴拉巴拉',
-				userId: '01',
-				userImg: '/static/6.jpg',
-			},
 			mineLsit: [{
 				icon: 'icon-wode',
 				color: '#dc8450',
@@ -35,17 +31,20 @@ export default {
 				break;
 			}
 		},
-		changeHeader(val) {
-			let data = val
-			this.$router.push({name:'ChangeHeader',params:data})
-			//console.log(val)
-			//this.$router.push({name:'FriendsNote',params:val})
-		},
 		logout() {
 			//消除socket 以及保存的user信息
+			removeItem('token')
 			this.$router.push({
 				name: 'Login'
 			})
 		}
+	},
+	computed: {
+		user() {
+			return this.$store.getters.getUser
+		}
+	},
+	mounted() {
+		//console.log(this.user)
 	}
 }

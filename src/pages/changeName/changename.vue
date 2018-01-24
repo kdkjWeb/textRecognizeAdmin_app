@@ -28,6 +28,17 @@
 			secondary
 			@click="save"/>
 		</div>
+		
+		<!-- 修改成功dialog -->
+		<mu-dialog :open="successDialog.show">
+			修改成功!!
+			<mu-raised-button 
+			label="确定" 
+			secondary
+			fullWidth
+			slot="actions" 
+			@click="comfirmDialog"/>
+	    </mu-dialog>
 	</div>
 </template>
 

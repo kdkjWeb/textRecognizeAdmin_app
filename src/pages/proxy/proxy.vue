@@ -17,10 +17,14 @@
 			    </mu-icon-menu>
 			</mu-appbar>
 		</div>
+		<!--{{user}}-->
 		<div class="content">
 			<div class="middle">
 				<div class="search">
-					<input type="text" placeholder="搜索用户">
+					<input type="text" 
+					placeholder="根据电话号码搜索" 
+					v-model="searchModel"
+					 @keyup="selectUp">
 					<div class="verLine"></div>
 					<mu-icon 
 					value="search"
@@ -30,21 +34,25 @@
 			<div class="userList" ref="userList" :style="{height: height}">
 				<mu-list style="padding: 0">
 					<mu-list-item
-					v-for="user, index in userList"
+					v-for="(user,index) in userList"
 					:key="index"
 					style="border-bottom:1px solid #fafafa" 
-					:title="user.userName">
+					:title="user.nickname +' ('+ user.phone +')'">
 				      <mu-avatar 
-				      :src="user.header" 
+				      :src="user.pictureAddress?'static/headImg/'+user.pictureAddress+'.jpg':'static/headImg/6.jpg'" 
 				      slot="leftAvatar"/>
 				      <mu-icon 
 				      value="border_color"
 				      :size="18" 
 				      slot="right"
-				      @click="editDialog.show = true"/>
+				      @click="openDialog(user)"/>
 				    </mu-list-item>
-				</mu-list>
+				    <span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
+				</mu-list>	
+				
 			</div>
+			
+			
 		</div>
 
 		<!-- 代理用户信息修改dialog -->
@@ -62,15 +70,15 @@
 				<div class="info">
 					<p>
 						<span>昵称:</span>
-						<span>会飞的肥肉</span>
+						<span v-text="user.nickname"></span>
 					</p>
 					<p>
 						<span>账号:</span>
-						<span>1234567890</span>
+						<span v-text="user.phone"></span>
 					</p>
 					<p>
 						<span>等级:</span>
-						<span>1</span>
+						<span v-text="user.grade"></span>
 					</p>
 				</div>
 			</header>
@@ -182,5 +190,16 @@
 
 		justify-content: space-between;
 		width: 100%;
+	}
+	.loadingMore{
+		
+		display: block;
+		width: 100%;
+		height:35px;
+		line-height: 35px;
+		background: rgba(0,0,0,.1);
+		/*background: red;*/
+		text-align: center;
+		color: #fff;
 	}
 </style>
