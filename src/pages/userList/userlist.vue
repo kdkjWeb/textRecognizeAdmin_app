@@ -47,13 +47,13 @@
 					:title="user.nickname +' ('+ user.phone +')'"
 					>
 				      <mu-avatar 
-				      :src="user.pictureAddress?'static/headImg/'+user.pictureAddress+'.jpg':'static/headImg/6.jpg'"  
+				      :src="user.pictureAddress?'static/headImg/'+user.pictureAddress+'.jpg':'static/headImg/6.jpg'" 
 				      slot="leftAvatar"/>
 				      <mu-icon 
 				      value="border_color"
 				      :size="18" 
 				      slot="right"
-				      @click="openDialog(user)"/>
+				      @click.stop="openDialog(user)"/>
 				    </mu-list-item>
 				<span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
 				    
@@ -74,7 +74,8 @@
 						<mu-avatar
 						:size="70" 
 						slot="left" 
-						src="/static/header2.jpg"/>
+						:src="'static/headImg/'+editDialog.model.pictureAddress+'.jpg'"
+						/>
 					</div>
 					<div class="info">
 						<p>
@@ -138,7 +139,7 @@
 	.mu-menu-item{
 		padding: 0 10px;
 	}
-	.mu-dialog-body{padding: 0;}
+	.mu-dialog-body{padding: 0 !important;}
 	.dialogClass{
 		width: 90%;
 	}

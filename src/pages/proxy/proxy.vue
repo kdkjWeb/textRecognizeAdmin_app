@@ -51,7 +51,7 @@
 				      value="border_color"
 				      :size="18" 
 				      slot="right"
-				      @click="openDialog(user)"/>
+				      @click.stop="openDialog(user)"/>
 				    </mu-list-item>
 				    <span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
 				</mu-list>	
@@ -125,7 +125,7 @@
 	export {default} from './proxyController'
 </script>
 <style type="text/css">
-	.mu-dialog-body{padding: 0}
+	.mu-dialog-body{padding: 0 !important;}
 	.dialogClass{
 		width: 81%;
 	}

@@ -23,7 +23,7 @@
 			<mu-list>
 				<div
 				style="border-bottom: 1px solid #f1f1f1"
-				v-for="msg, index in sysMsgList"
+				v-for="(msg, index) in sysMsgList"
 				:key="index"
 				@click="$router.push({
 					name: 'SysMessageDetail',

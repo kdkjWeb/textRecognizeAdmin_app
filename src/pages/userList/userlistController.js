@@ -31,6 +31,7 @@ export default {
 					date: '',
 					phone: '',
 					grade: '',
+					pictureAddress: ''
 				}, 
 			},
 
@@ -178,7 +179,7 @@ export default {
 		editSubmit() {
 			this.editDialog.show = false
 			if(this.editDialog.value == 1){
-				console.log(this.editDialog.model.id)
+				
 				Axios.post('admin/upToProxy',{
 					id: this.editDialog.model.id
 				}).then(res=>{
@@ -214,6 +215,7 @@ export default {
 		
 		// 点击操作弹出框显示
 		openDialog(user){
+			//this.editDialog.model.pictureAddress = user.pictureAddress
 			Axios.post('admin/getProxyMsg',{
 				id: user.id,
 			}).then(res=>{
@@ -221,7 +223,8 @@ export default {
 				if(res.data.code == 0){
 					Object.assign(this.proxyUser,{
 					nickName: JSON.parse(res.data.msg).nickname,
-					phone: JSON.parse(res.data.msg).phone
+					phone: JSON.parse(res.data.msg).phone,
+					
 				})
 				}
 			})
@@ -230,7 +233,8 @@ export default {
 				id: user.id,
 				nickName: user.nickname,
 				phone: user.phone,
-				level: user.level
+				level: user.level,
+				pictureAddress: user.pictureAddress
 			})
 			
 		},
