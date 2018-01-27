@@ -1,39 +1,63 @@
 <template>
-	<div class="loginContainer">
-		<h2 class="text_center">登录</h2>
-		<mu-text-field
-		v-model="userName" 
-		hintText="请输入用户名"
-		type="text" 
-		label="用户名" 
-		fullWidth
-		labelFloat/>
-		
-		<mu-text-field 
-		v-model="password"
-		hintText="请输入密码"
-		type="password" 
-		label="密码"
-		fullWidth
-		labelFloat/>
-
-		<mu-raised-button 
-		label="登录"
-		secondary 
-		fullWidth
-		@click="login"/>
+	<div id="login"> 
+		<div class="loginContainer">
+			<h2 class="text_center">登录</h2>
+			<mu-text-field
+			v-model="userName" 
+			hintText="请输入用户名"
+			type="text" 
+			label="用户名" 
+			fullWidth
+			labelFloat
+			:underlineShow="false"/>
+			
+			<mu-text-field 
+			v-model="password"
+			hintText="请输入密码"
+			type="password" 
+			label="密码"
+			fullWidth
+			labelFloat
+			:underlineShow="false"/>
+	
+			<mu-raised-button 
+			label="登录"
+			secondary 
+			fullWidth
+			@click="login"/>
+		</div>
 	</div>
 </template>
 
 <script type="text/javascript">
 	export {default} from './loginController'
 </script>
-
+<style>
+	.mu-text-field-label{
+		color: #fff;
+	}
+	.mu-text-field-hint{
+		color: #ddd;
+		font-size: 12px;
+	}
+	.mu-text-field-input{
+		color: #fff;
+	}
+</style>
 <style type="text/css" scoped>
+	#login{
+		width: 100%;
+		height: 100%;
+		background-image: url(../../../static/login.jpg);
+		background-size: cover;
+	}
     .loginContainer{
     	position: relative;
     	top: 20%;
     	padding: 5%;
+    }
+    .text_center{
+    	color: #fff;
     }
 	.other_link_div{
 		margin-top: 10px;

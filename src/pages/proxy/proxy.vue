@@ -12,8 +12,14 @@
 			     slot="right"
 			     :anchorOrigin="{vertical: 'top',horizontal: 'left'}"
 		         :targetOrigin="{vertical: 'bottom',horizontal: 'left'}">
-			    	<mu-menu-item title="按时间" />
-				    <mu-menu-item title="按等级" />
+			    	<mu-menu-item class="time" 
+			    	:class="{timeAct:ActShow.show}" 
+			    	title="按时间"
+			    	@click="timeSort"/>
+				<mu-menu-item class="leavel" 
+				:class="{leavelAct:ActShow.show1}" 
+				title="按等级" 
+				@click="leavelSort"/>
 			    </mu-icon-menu>
 			</mu-appbar>
 		</div>
@@ -59,26 +65,27 @@
 		<mu-dialog 
 		:open="editDialog.show" 
 		@close="editCancel"
-		style="padding: 0">
+		style="padding: 0"
+		:dialogClass="['dialogClass']">
 			<header>
 				<div class="header">
 					<mu-avatar
 					:size="70" 
 					slot="left" 
-					src="/static/header2.jpg"/>
+					:src="'static/headImg/'+ editDialog.model.pictureAddress +'.jpg'"/>
 				</div>
 				<div class="info">
 					<p>
 						<span>昵称:</span>
-						<span v-text="user.nickname"></span>
+						<span v-text="editDialog.model.nickName"></span>
 					</p>
 					<p>
 						<span>账号:</span>
-						<span v-text="user.phone"></span>
+						<span v-text="editDialog.model.phone"></span>
 					</p>
 					<p>
 						<span>等级:</span>
-						<span v-text="user.grade"></span>
+						<span v-text="editDialog.model.level"></span>
 					</p>
 				</div>
 			</header>
@@ -86,21 +93,16 @@
 				<div class="options">
 					<div class="up_Low">
 						<mu-select-field 
-						v-model="editDialog.model.level"
+						v-model="editDialog.model.grade"
 						label="升降级" 
 						fullWidth>
-						    <!-- <mu-menu-item 
-						    v-for="lev,index in levelList" 
-						    :key="index" 
-						    :value="lev.key" 
-						    :title="lev.label" /> -->
 						    <mu-menu-item value="1" title="1"/>
 						    <mu-menu-item value="2" title="2"/>
 						    <mu-menu-item value="3" title="3"/>
 					    </mu-select-field>
 					</div>
 					<div class="date">
-						<span style="font-size:13px">代理时间:</span><mu-date-picker hintText="请选择"/>
+						<span style="font-size:13px">代理时间:</span><mu-date-picker v-model="editDialog.model.date" hintText="请选择"/>
 					</div>
 				</div>
 			</div>
@@ -123,7 +125,48 @@
 	export {default} from './proxyController'
 </script>
 <style type="text/css">
-	.mu-dialog-body{padding: 0 !important;}
+	.mu-dialog-body{padding: 0}
+	.dialogClass{
+		width: 81%;
+	}
+	.time::after{
+		position: absolute;
+		right: 10px;
+		top: 23px;
+		display: block;
+		content: "\25BC";
+		width: 10px;
+		height: 10px;
+		
+	}
+	.timeAct::after{
+		position: absolute;
+		right: 10px;
+		top: 23px;
+		display: block;
+		content: "\25B2";
+		width: 10px;
+		height: 10px;
+		
+	}
+	.leavel::after{
+		position: absolute;
+		right: 10px;
+		top: 72px;
+		display: block;
+		content: "\25BC";
+		width: 10px;
+		height: 10px;
+	}
+	.leavelAct::after{
+		position: absolute;
+		right: 10px;
+		top: 72px;
+		display: block;
+		content: "\25B2";
+		width: 10px;
+		height: 10px;
+	}
 </style>
 
 <style type="text/css" scoped>

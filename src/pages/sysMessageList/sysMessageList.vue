@@ -1,5 +1,5 @@
 <template>
-	<div style="height: 100%">
+	<div style="height: 100%" >
 		<div class="header">
 			<mu-appbar 
 			style="text-align:center"
@@ -11,7 +11,7 @@
 			    @click="goBack"/>
 
 			    <mu-raised-button
-			    label="建议" 
+			    label="发布" 
 			    class="demo-raised-button"
 			    slot="right" 
 			    secondary
@@ -26,7 +26,7 @@
 				:key="index"
 				@click="$router.push({
 					name: 'SysMessageDetail',
-					query: { id: msg.id}
+					query: { msg: msg}
 				})">
 					<mu-list-item 
 					:title="msg.title" 
@@ -38,34 +38,90 @@
 		</div>
 
 		<!-- 建议弹出框 -->
-		<mu-dialog :open="suggestDialog.show" @close="suggestCancel">
+		<!--<mu-dialog :open="suggestDialog.show" @close="suggestCancel">
+			<mu-text-field
+			v-model="suggestDialog.title" 
+			hintText="请输入标题"
+			type="text" 
+			fullWidth
+			/>
 			<mu-text-field 
 			hintText="推送建议:" 
 			multiLine :rows="3" 
 			:rowsMax="6"
 			v-model="suggestDialog.model" 
 			fullWidth/>
-			<footer>
+			<div class="footer">
 				<mu-raised-button 
 				secondary 
 				@click="suggestSubmit" 
 				label="确定"/>
 				<mu-raised-button 
-				
 				@click="suggestCancel" 
 				primary 
 				label="取消"/>
-			</footer>
-		</mu-dialog>
+			</div>
+		</mu-dialog>-->
+		<div id="dialog" v-show="suggestDialog.show" @close="suggestCancel">
+			<mu-text-field
+			v-model="suggestDialog.title" 
+			hintText="请输入标题"
+			type="text" 
+			fullWidth
+			/>
+			<mu-text-field 
+			hintText="推送建议:" 
+			multiLine :rows="3" 
+			:rowsMax="6"
+			v-model="suggestDialog.model" 
+			fullWidth/>
+			<div class="footer">
+				<mu-raised-button 
+				secondary 
+				@click="suggestSubmit" 
+				label="确定"/>
+				<mu-raised-button 
+				@click="suggestCancel" 
+				primary 
+				label="取消"/>
+			</div>
+		</div>
+		<!--遮罩层-->
+		<div class="layout"
+			:style="{height:height}"
+			v-show="suggestDialog.show"
+			@click="close"
+			></div>  
 	</div>
 </template>
 
 <script type="text/javascript">
 	export {default} from './sysMessageListController'
 </script>
-
+<style>
+ 
+</style>
 <style type="text/css" scoped>
-	footer{
+	.layout{
+		position: fixed;
+		left: 0;
+		top: 0;
+	/*	z-index: 99;*/
+		width: 100%;
+		background-color: rgba(0,0,0,.1);
+	}
+	#dialog{
+		position: fixed;
+		width: 75%;
+		margin: 0 auto;
+		background: #fff;
+		z-index: 999;
+		left: 12.5%;
+		top: 50%;
+		transform: translateY(-50%);
+		padding: 24px;
+	}
+	.footer{
 		display: flex;
 		justify-content: space-between;
 	}

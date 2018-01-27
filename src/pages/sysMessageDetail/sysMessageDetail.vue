@@ -10,9 +10,7 @@
 			    icon="chevron_left" 
 			    slot="left"
 			    @click="goBack"/>
-			    <mu-icon-button
-			    icon="" 
-			    slot="right"/>
+			    
 			</mu-appbar>
 		</div>
 		<div class="systemnews_title">

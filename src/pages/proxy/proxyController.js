@@ -5,6 +5,11 @@ import scroll from 'better-scroll'
 export default {
 	data() {
 		return {
+			//改变箭头的状态
+			ActShow:{
+				show: false,
+				show1:false
+			},
 			height: 0,
 			current: 1,  //当前页码
 			pageSize: 10,   //每次请求的数据条数
@@ -25,6 +30,9 @@ export default {
 					nickName: '',
 					level: '',
 					date: '',
+					phone: '',
+					grade: '',
+					pictureAddress: ''
 				}, 
 			},
 
@@ -48,6 +56,78 @@ export default {
 		this.height = (window.innerHeight -142) + 'px';
 	},
 	methods:{
+		//按时间排序
+		timeSort(){
+			//从高到底
+			if(!this.ActShow.show){
+				Axios.post('admin/selectUsersList',{
+						type: 1,
+						current: this.current,
+						pageSize: 10,
+						orderBy: 'expire_date',
+						sort: 'desc'
+				}).then(res=>{
+					if(res.data.code == 0){
+						this.userList = JSON.parse(res.data.data);
+					}
+				},err=>{
+					this.$toast('操作失败!')
+				})
+				this.ActShow.show = !this.ActShow.show
+			}else{
+				//从低到高
+				Axios.post('admin/selectUsersList',{
+						type: 1,
+						current: this.current,
+						pageSize: 10,
+						orderBy: 'expire_date',
+				}).then(res=>{
+					if(res.data.code == 0){
+						this.userList = JSON.parse(res.data.data);
+					}
+				},err=>{
+					this.$toast('操作失败!')
+				})
+				this.ActShow.show = !this.ActShow.show
+			}
+		},
+		
+		//按等级排序
+		leavelSort(){
+				//从高到底
+			if(!this.ActShow.show1){
+				Axios.post('admin/selectUsersList',{
+						type: 1,
+						current: this.current,
+						pageSize: 10,
+						orderBy: 'proxy_level',  
+						sort: 'desc'
+				}).then(res=>{
+					if(res.data.code == 0){
+						this.userList = JSON.parse(res.data.data);
+					}
+				},err=>{
+					this.$toast('操作失败!')
+				})
+				this.ActShow.show1 = !this.ActShow.show1
+			}else{
+				//从低到高
+				Axios.post('admin/selectUsersList',{
+						type: 1,
+						current: this.current,
+						pageSize: 10,
+						orderBy: 'proxy_level',   // 以等级排序
+				}).then(res=>{
+					if(res.data.code == 0){
+						this.userList = JSON.parse(res.data.data);
+					}
+				},err=>{
+					this.$toast('操作失败!')
+				})
+				this.ActShow.show1 = !this.ActShow.show1
+			}
+		},
+		
 		//点击搜索按钮查询
 		search() {
 			if(!this.searchModel){
@@ -55,7 +135,7 @@ export default {
 			}else{
 			Axios.post('admin/selectUsersList',{
 				type: 1,
-				current: 1,
+				current: this.current,
 				pageSize: 10,
 				orderBy: 'nickname',
 				keyWord: this.searchModel
@@ -71,11 +151,12 @@ export default {
 			})
 			}
 		},
+		
 		//实时搜索
 		selectUp(){
 			Axios.post('admin/selectUsersList',{
 				type: 1,
-				current: 1,
+				current: this.current,
 				pageSize: 10,
 				orderBy: 'nickname',
 				keyWord: this.searchModel
@@ -86,38 +167,64 @@ export default {
 				}
 			})
 		},
+		
 		//打开弹出选择框
 		openDialog(user){
 			this.editDialog.show = true
-			console.log(user)
-			Object.assign(this.user, {
-				nickname: user.nickname,
+			Object.assign(this.editDialog.model,{
+				id: user.id,
+				nickName: user.nickname,
 				phone: user.phone,
-				grade: user.level
+				level: user.proxyLevel,
+				pictureAddress: user.pictureAddress
 			})
-			/*this.user.nickname = user.nickname
-			this.user.phone = user.phone
-			this.user.grade = user.level*/
 		},
+		
+		//点击弹出框确认按钮
 		editSubmit() {
 			this.editDialog.show = false
+			if(!this.editDialog.model.grade&&!this.editDialog.model.date){
+				this.$toast('您还没填写内容')
+				return
+			}
+			Axios.post('user/update',{
+				id: this.editDialog.model.id,
+				proxyLevel: this.editDialog.model.grade,
+				expireDate: (new Date(this.editDialog.model.date)).getTime()
+			}).then(res=>{
+				if(res.data.code == 0){
+					Axios.post('admin/selectUsersList',{
+						type: 1,
+						current: this.current,
+						pageSize: this.pageSize,
+						orderBy: 'nickname'
+					}).then(res=>{
+						this.userList = JSON.parse(res.data.data);
+					})
+					this.editDialog.model.grade = ''
+					this.editDialog.model.date = ''
+					this.$toast('操作成功')
+				}
+			})
+		
 		},
+		
+		// 点击弹出框取消按钮
 		editCancel() {
 			this.editDialog.show = false
-		},
-		//查询代理用户
-		/*_searchProxyList(){
+			this.editDialog.model.grade = ''
+			this.editDialog.model.date = ''
+			this.searchModel = ''
 			Axios.post('admin/selectUsersList',{
-				type: 1,
-				current: 1,
-				pageSize: 5,
-				orderBy: 'nickname'
-			}).then(res=>{
-				
-				this.userList = JSON.parse(res.data.data);
-				
-			})
-		},*/
+						type: 1,
+						current: this.current,
+						pageSize: this.pageSize,
+						orderBy: 'nickname'
+					}).then(res=>{
+						this.userList = JSON.parse(res.data.data);
+					})
+		},
+
 	
 		//初始化滚动插件
 		_initScroll(){
@@ -129,7 +236,6 @@ export default {
 				orderBy: 'nickname'
 			}).then(res=>{
 				this.userList = JSON.parse(res.data.data);
-				//console.log(this.userList)
 				this.$nextTick(()=>{
 					if(!this.Scroll){
 						this.Scroll = new scroll(this.$refs['userList'],{
@@ -146,6 +252,9 @@ export default {
 								that.Scroll.refresh();
 							})
 						})
+						this.Scroll.on("pullingDown",()=>{
+							this.current--
+						})
 						
 					}
 				})
@@ -154,11 +263,12 @@ export default {
 				this.$toast('网络异常')
 			})
 		},
+		
 		//给页面添加数据
 		loadData(){
 			Axios.post('admin/selectUsersList',{
 				type: 1,
-				current: ++this.current,
+				current: this.current++,
 				pageSize: this.pageSize,
 				orderBy: 'nickname'
 			}).then(res=>{
@@ -181,27 +291,14 @@ export default {
 	
 	},
 	mounted() {
-		//使用better-scroll 滚动插件 
-		/*this.$nextTick(()=>{
-			new scroll(this.$refs['userList'],{
-				click: true
-			})
-		})*/
+		
 
 		// 监听窗口改变重置高度
         window.addEventListener('resize', () => {
             this.height = (window.innerHeight-142) + 'px';
         })
         
-        
-        //查询代理商用户
-      //this._searchProxyList()
-      
+        //调用滚动插件初始化数据
        this._initScroll();
 	},
-	/*computed: {
-		...mapGetters({
-			user: 'getUser'
-		})
-	},*/
 }

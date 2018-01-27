@@ -12,10 +12,18 @@
 			     slot="right"
 			     :anchorOrigin="{vertical: 'top',horizontal: 'left'}"
 		         :targetOrigin="{vertical: 'bottom',horizontal: 'left'}">
-			    	<mu-menu-item title="按时间" />
-				    <mu-menu-item title="按等级" />
+			    	<mu-menu-item class="time" 
+			    	:class="{timeAct:ActShow.show}" 
+			    	title="按时间"
+			    	@click="timeSort"/>
+				<mu-menu-item class="leavel" 
+				:class="{leavelAct:ActShow.show1}" 
+				title="按等级" 
+				@click="leavelSort"/>
+				
 			    </mu-icon-menu>
 			</mu-appbar>
+			<!--<div class="menuDown"></div>-->
 		</div>
 		<div class="content">
 			<div class="middle">
@@ -45,7 +53,7 @@
 				      value="border_color"
 				      :size="18" 
 				      slot="right"
-				      @click="editDialog.show = true"/>
+				      @click="openDialog(user)"/>
 				    </mu-list-item>
 				<span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
 				    
@@ -71,23 +79,23 @@
 					<div class="info">
 						<p>
 							<span>昵称:</span>
-							<span>会飞的肥肉</span>
+							<span v-text="editDialog.model.nickName"></span>
 						</p>
 						<p>
 							<span>账号:</span>
-							<span>1234567890</span>
+							<span v-text="editDialog.model.phone"></span>
 						</p>
 						<p>
 							<span>等级:</span>
-							<span>1</span>
+							<span v-text="editDialog.model.level"></span>
 						</p>
 					</div>
 				</div>
 				<div class="agents">
 					 <p>
 					 	<span>所属代理商:</span>
-					 	<span>发抖的小喵喵</span>/
-					 	<span>13554654789</span>
+					 	<span v-text="proxyUser.nickName"></span>/
+					 	<span v-text="proxyUser.phone"></span>
 					 </p>
 				</div>
 			</header>
@@ -95,14 +103,14 @@
 				<span>提升为代理商:</span>
 				<mu-radio label="是" 
 				name="group" 
-				nativeValue="yes" 
+				nativeValue="1" 
 				v-model="editDialog.value" 
 				class="demo-radio"
 				:labelClass="['labelClass']"
 				/>
 				<mu-radio label="否" 
 				name="group" 
-				nativeValue="no" 
+				nativeValue="0" 
 				v-model="editDialog.value" 
 				class="demo-radio"
 				:labelClass="['labelClass']"
@@ -127,16 +135,67 @@
 	export {default} from './userlistController'
 </script>
 <style type="text/css">
-	.mu-dialog-body{padding: 0 !important;}
+	.mu-menu-item{
+		padding: 0 10px;
+	}
+	.mu-dialog-body{padding: 0;}
 	.dialogClass{
 		width: 90%;
 	}
 	.labelClass{
 		padding-right: 10px;
 	}
+	.time::after{
+		position: absolute;
+		right: 10px;
+		top: 23px;
+		display: block;
+		content: "\25BC";
+		width: 10px;
+		height: 10px;
+		
+	}
+	.timeAct::after{
+		position: absolute;
+		right: 10px;
+		top: 23px;
+		display: block;
+		content: "\25B2";
+		width: 10px;
+		height: 10px;
+		
+	}
+	.leavel::after{
+		position: absolute;
+		right: 10px;
+		top: 72px;
+		display: block;
+		content: "\25BC";
+		width: 10px;
+		height: 10px;
+	}
+	.leavelAct::after{
+		position: absolute;
+		right: 10px;
+		top: 72px;
+		display: block;
+		content: "\25B2";
+		width: 10px;
+		height: 10px;
+	}
 </style>
 
 <style type="text/css" scoped>
+/*.menuDown{
+	position: absolute;
+	right: 0;
+	width: 100px;
+	height: 100px;
+	background: red;
+	z-index: 99;
+}*/
+
+
 	.content{
 		height: -webkit-calc(100% - 56px);
 		height: -moz-calc(100% - 56px);
@@ -205,8 +264,11 @@
 	.agents{
 		color: #fff;
 	}
+	.agents p{
+		text-align: center;
+	}
 	.agents span{
-		font-size: 14px;
+		font-size: 12px;
 	}
 	.agents span:nth-child(2){
 		margin-right: 8px;
