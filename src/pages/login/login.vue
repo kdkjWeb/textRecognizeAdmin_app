@@ -40,9 +40,7 @@
 		color: #ddd;
 		font-size: 12px;
 	}
-	.mu-text-field-input{
-		color: #fff;
-	}
+
 </style>
 <style type="text/css" scoped>
 	#login{
