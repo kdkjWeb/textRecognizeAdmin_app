@@ -1,5 +1,6 @@
 //import services from './sysMessageListServices'
 import Axios from '@/server/index'
+import scroll from 'better-scroll'
 export default {
 	data() {
 		return {
@@ -42,6 +43,7 @@ export default {
 					 this.suggestDialog.model = ''
 					 this.suggestDialog.title = ''
 					 this._initMessageList()
+					 this.Scroll.scrollTo(0, 0)
 				}
 			},err=>{
 				console.log(err)
@@ -61,5 +63,14 @@ export default {
 	mounted(){
 		this._initMessageList()
 		this.height = window.innerHeight + 'px'
+		this.$nextTick(()=>{
+			if(!this.Scroll){
+				this.Scroll = new scroll(this.$refs['sysMsg'],{
+					click: true
+				})
+			}else{
+				this.Scroll.refresh();
+			}
+		})
 	}
 }

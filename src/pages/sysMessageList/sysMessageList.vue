@@ -18,7 +18,8 @@
 			    @click="suggestDialog.show = true"/>
 			</mu-appbar>
 		</div>
-		<div class="content">
+		<div class="content" ref="sysMsg">
+		
 			<mu-list>
 				<div
 				style="border-bottom: 1px solid #f1f1f1"
@@ -35,33 +36,10 @@
 					<!-- <mu-divider/> -->
 				</div>
 			</mu-list>
+		
 		</div>
-
 		<!-- 建议弹出框 -->
-		<!--<mu-dialog :open="suggestDialog.show" @close="suggestCancel">
-			<mu-text-field
-			v-model="suggestDialog.title" 
-			hintText="请输入标题"
-			type="text" 
-			fullWidth
-			/>
-			<mu-text-field 
-			hintText="推送建议:" 
-			multiLine :rows="3" 
-			:rowsMax="6"
-			v-model="suggestDialog.model" 
-			fullWidth/>
-			<div class="footer">
-				<mu-raised-button 
-				secondary 
-				@click="suggestSubmit" 
-				label="确定"/>
-				<mu-raised-button 
-				@click="suggestCancel" 
-				primary 
-				label="取消"/>
-			</div>
-		</mu-dialog>-->
+	
 		<div id="dialog" v-show="suggestDialog.show" @close="suggestCancel">
 			<mu-text-field
 			v-model="suggestDialog.title" 
@@ -102,11 +80,16 @@
  
 </style>
 <style type="text/css" scoped>
+	.content{
+		overflow: hidden;
+		height: -webkit-calc(100% - 56px);
+		height: -moz-calc(100% - 56px);
+		height: calc(100% - 56px);
+	}
 	.layout{
 		position: fixed;
 		left: 0;
 		top: 0;
-	/*	z-index: 99;*/
 		width: 100%;
 		background-color: rgba(0,0,0,.1);
 	}
