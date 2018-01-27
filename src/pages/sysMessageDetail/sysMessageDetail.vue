@@ -44,6 +44,7 @@
 .systemnews_comtent{
 	padding: 15px 20px;
 	font-size: 14px;
+	word-break: break-all;
 }
 </style>
 
