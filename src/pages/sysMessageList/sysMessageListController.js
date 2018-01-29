@@ -8,7 +8,7 @@ export default {
 			suggestDialog: {
 				show: false,
 				model: '', //建议的model
-				title: ''  //建议的标题
+				title: '', //建议的标题
 			},
 			sysMsgList: []
 		}
@@ -22,17 +22,17 @@ export default {
 		close(){
 			this.suggestDialog.show = false
 		},
-
+		
 		/* 发布 */
 		suggestSubmit() {
 			
 			//提交建议信息
-			this.suggestDialog.show = false
-			if(!this.suggestDialog.model&&!this.suggestDialog.title){
-				this.$toast('你还有内容没有输入')
+			
+			if(!this.suggestDialog.model||!this.suggestDialog.title){
+				this.suggestDialog.show = true
 				return
 			}
-		
+
 			Axios.post('admin/addBroadCast',{
 				msg: this.suggestDialog.model,
 				date: (new Date).getTime(),
@@ -44,21 +44,26 @@ export default {
 					 this.suggestDialog.title = ''
 					 this._initMessageList()
 					 this.Scroll.scrollTo(0, 0)
+					 this.suggestDialog.show = false
 				}
 			},err=>{
 				console.log(err)
 			})
 		},
+		//点击弹出框的取消按钮
 		suggestCancel() {
 			this.suggestDialog.show = false
+			this.suggestDialog.model = ''
+			this.suggestDialog.title = ''
 		},	
+		//获取后台已经有的消息列表数据
 		_initMessageList(){
 			Axios.get('message/broadcast').then(res=>{
 				if(res.data.data.length>0){
 					this.sysMsgList = res.data.data.reverse()
 				}
 			})
-		}
+		},
 	},
 	mounted(){
 		this._initMessageList()

@@ -51,12 +51,12 @@
 			hintText="推送建议:" 
 			multiLine :rows="3" 
 			:rowsMax="6"
-			v-model="suggestDialog.model" 
+			v-model="suggestDialog.model"
 			fullWidth/>
 			<div class="footer">
 				<mu-raised-button 
 				secondary 
-				@click="suggestSubmit" 
+				@click="suggestSubmit"
 				label="确定"/>
 				<mu-raised-button 
 				@click="suggestCancel" 
@@ -77,7 +77,14 @@
 	export {default} from './sysMessageListController'
 </script>
 <style>
- 
+   .mu-card-header-title{
+	   padding: 0;
+   }
+   .mu-item-title{
+	   overflow: hidden;
+	   text-overflow:ellipsis;
+	   white-space: nowrap;
+   }
 </style>
 <style type="text/css" scoped>
 	.content{

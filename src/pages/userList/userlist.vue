@@ -31,7 +31,7 @@
 					<input type="text" 
 					placeholder="根据电话号码搜索" 
 					v-model="searchModel"
-					 @keyup="selectUp">
+					@keyup="selectUp">
 					<div class="verLine"></div>
 					<mu-icon 
 					value="search"
@@ -45,14 +45,15 @@
 					:key="index"
 					style="border-bottom:1px solid #fafafa"
 					:title="user.nickname +' ('+ user.phone +')'"
-					>
+				    :disabled="true">
 				      <mu-avatar 
 				      :src="user.pictureAddress?'static/headImg/'+user.pictureAddress+'.jpg':'static/headImg/6.jpg'" 
 				      slot="leftAvatar"/>
 				      <mu-icon 
 				      value="border_color"
-				      :size="18" 
+				      :size="16" 
 				      slot="right"
+					  color="#2196f3"
 				      @click.stop="openDialog(user)"/>
 				    </mu-list-item>
 				<span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
@@ -74,7 +75,7 @@
 						<mu-avatar
 						:size="70" 
 						slot="left" 
-						:src="'static/headImg/'+editDialog.model.pictureAddress+'.jpg'"
+						:src="editDialog.model.pictureAddress?'static/headImg/'+editDialog.model.pictureAddress+'.jpg':'static/headImg/6.jpg'"
 						/>
 					</div>
 					<div class="info">

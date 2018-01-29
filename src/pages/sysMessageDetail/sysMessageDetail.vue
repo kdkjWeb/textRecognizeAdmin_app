@@ -13,14 +13,19 @@
 			    
 			</mu-appbar>
 		</div>
-		<div class="systemnews_title">
-			<mu-card-header 
-			:title="title" 
-			:subTitle="subTitle"
-			:titleClass="['titleSize']">
-			</mu-card-header>
+		<div class="content" :style="{height: height}" ref="content">
+			<div>
+				<div class="systemnews_title">
+					<mu-card-header 
+					:title="title" 
+					:subTitle="subTitle"
+					:titleClass="['titleSize']">
+					</mu-card-header>
+				</div>
+				<div class="systemnews_comtent">{{comtent}}</div>
+			</div>
 		</div>
-		<div class="systemnews_comtent">{{comtent}}</div>
+		
 	</div>
 </template>
 
@@ -45,6 +50,9 @@
 	padding: 15px 20px;
 	font-size: 14px;
 	word-break: break-all;
+}
+.content{
+	overflow: hidden;
 }
 </style>
 

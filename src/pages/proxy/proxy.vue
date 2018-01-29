@@ -43,14 +43,16 @@
 					v-for="(user,index) in userList"
 					:key="index"
 					style="border-bottom:1px solid #fafafa" 
-					:title="user.nickname +' ('+ user.phone +')'">
+					:title="user.nickname +' ('+ user.phone +')'"
+					:disabled="true">
 				      <mu-avatar 
 				      :src="user.pictureAddress?'static/headImg/'+user.pictureAddress+'.jpg':'static/headImg/6.jpg'" 
 				      slot="leftAvatar"/>
 				      <mu-icon 
 				      value="border_color"
-				      :size="18" 
+				      :size="16" 
 				      slot="right"
+					  color="#2196f3"
 				      @click.stop="openDialog(user)"/>
 				    </mu-list-item>
 				    <span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
@@ -72,7 +74,7 @@
 					<mu-avatar
 					:size="70" 
 					slot="left" 
-					:src="'static/headImg/'+ editDialog.model.pictureAddress +'.jpg'"/>
+					:src="editDialog.model.pictureAddress?'static/headImg/'+editDialog.model.pictureAddress+'.jpg':'static/headImg/6.jpg'"/>
 				</div>
 				<div class="info">
 					<p>

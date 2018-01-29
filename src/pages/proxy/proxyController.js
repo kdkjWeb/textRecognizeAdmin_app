@@ -246,7 +246,11 @@ export default {
 							}
 						})
 						this.Scroll.on("pullingUp",()=>{
-							that.loadData();
+							//that.loadData();
+							setTimeout(()=>{
+								that.loadData();
+								console.log(666)
+							},2000)
 							that.$nextTick(()=>{
 								that.Scroll.finishPullUp();
 								that.Scroll.refresh();
@@ -273,10 +277,8 @@ export default {
 				orderBy: 'nickname'
 			}).then(res=>{
 				if(res.data.code == 0){
-					console.log(res.data.msg)
 				let userMore = JSON.parse(res.data.data);
 				this.userList.push.apply(this.userList,userMore)
-				console.log(this.userList)
 				}else if(res.data.code == 500){
 					this.isLoading = true,
 					this.loadingMore = '没有更多数据了'

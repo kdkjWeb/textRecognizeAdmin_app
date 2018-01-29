@@ -201,25 +201,24 @@ export default {
 		
 		//点击弹出框的取消按钮
 		editCancel() {
-			this.editDialog.show = false
-			this.searchModel = ''
+			
 			Axios.post('admin/selectUsersList',{
 						type: 0,
 						current: this.current,
 						pageSize: this.pageSize,
 						orderBy: 'nickname'
 					}).then(res=>{
+						this.editDialog.show = false
+						this.searchModel = ''
 						this.userList = JSON.parse(res.data.data);
 					})
 		},
 		
 		// 点击操作弹出框显示
 		openDialog(user){
-			//this.editDialog.model.pictureAddress = user.pictureAddress
 			Axios.post('admin/getProxyMsg',{
 				id: user.id,
 			}).then(res=>{
-				console.log(res)
 				if(res.data.code == 0){
 					Object.assign(this.proxyUser,{
 					nickName: JSON.parse(res.data.msg).nickname,
@@ -259,7 +258,11 @@ export default {
 							}
 						})
 						this.Scroll.on("pullingUp",()=>{
-							that.loadData();
+							//that.loadData();
+							setTimeout(()=>{
+								that.loadData();
+								console.log(666)
+							},2000)
 							that.$nextTick(()=>{
 								that.Scroll.finishPullUp();
 								that.Scroll.refresh();
@@ -286,10 +289,8 @@ export default {
 				orderBy: 'nickname'
 			}).then(res=>{
 				if(res.data.code == 0){
-					console.log(res.data.msg)
 				let userMore = JSON.parse(res.data.data);
-				this.userList.push.apply(this.userList,userMore)
-				console.log(this.userList)
+				this.userList.push.apply(this.userList,userMore)			
 				}else if(res.data.code == 500){
 					this.isLoading = true,
 					this.loadingMore = '没有更多数据了'
