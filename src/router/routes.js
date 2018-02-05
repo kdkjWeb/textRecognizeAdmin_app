@@ -10,7 +10,8 @@ const Mine = ()=>import('@/pages/mine/mine'),   //我的
  	  ChangePassword =()=>import('@/pages/changePassword/changepassword'),    //修改密码
  	  SysMessageList = ()=>import('@/pages/sysMessageList/sysMessageList'), //推送消息列表
  	  SysMessageDetail = ()=>import('@/pages/sysMessageDetail/sysMessageDetail'), //系统消息
- 	  UserList =()=>import('@/pages/userList/userlist')
+	  UserList =()=>import('@/pages/userList/userlist'),   //用户列表
+	  SysAdviceList =()=>import('@/pages/sysAdviceList/sysAdviceList')
  	 
 export default {
 	routes: [
@@ -62,6 +63,10 @@ export default {
 			path: '/sysMessageDetail',
 			name: 'SysMessageDetail',
 			component: SysMessageDetail
+		},{
+			path: '/sysAdviceList',
+			name: 'SysAdviceList',
+			component: SysAdviceList
 		}
 	]
 }

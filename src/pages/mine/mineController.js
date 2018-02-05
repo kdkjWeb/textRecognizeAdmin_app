@@ -14,6 +14,10 @@ export default {
 				icon: 'icon-news',
 				color: '#d4a426',
 				text: '系统消息'
+			},{
+				icon: 'icon-news',
+				color: '#d4a426',
+				text: '用户建议'
 			}]
 		}
 	},
@@ -28,6 +32,9 @@ export default {
 				break;
 				case 2:
 				this.$router.push('/sysMessageList')
+				break;
+				case 3:
+				this.$router.push('/sysAdviceList')
 				break;
 			}
 		},

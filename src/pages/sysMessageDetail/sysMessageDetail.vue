@@ -2,7 +2,7 @@
 	<div class="systemnews">
 		<div class="header">
 			<mu-appbar 
-			title="推送标题" 
+			title="消息详情" 
 			class="header_title"
 			style="text-align:center">
 			    <mu-icon-button
@@ -10,7 +10,6 @@
 			    icon="chevron_left" 
 			    slot="left"
 			    @click="goBack"/>
-			    
 			</mu-appbar>
 		</div>
 		<div class="content" :style="{height: height}" ref="content">
