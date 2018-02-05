@@ -40,6 +40,7 @@
 			<div class="userList" ref="userList" :style="{height: height}">
 				<mu-list style="padding: 0">
 					<mu-list-item
+					v-if="userList.length>0"
 					v-for="(user,index) in userList"
 					:key="index"
 					style="border-bottom:1px solid #fafafa" 
@@ -55,6 +56,10 @@
 					  color="#2196f3"
 				      @click.stop="openDialog(user)"/>
 				    </mu-list-item>
+					<mu-content-block
+				    v-if="userList.length <= 0">
+				    	您暂无代理商哟，赶紧去加一个吧
+				    </mu-content-block>
 				    <span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
 				</mu-list>	
 				
@@ -89,11 +94,16 @@
 						<span>等级:</span>
 						<span v-text="editDialog.model.level"></span>
 					</p>
+					<p>
+						<span>到期:</span>
+						<span v-text="editDialog.model.expireDate"></span>
+					</p>
 				</div>
 			</header>
 			<div>
 				<div class="options">
 					<div class="up_Low">
+						
 						<mu-select-field 
 						v-model="editDialog.model.grade"
 						label="升降级" 
@@ -104,7 +114,24 @@
 					    </mu-select-field>
 					</div>
 					<div class="date">
-						<span style="font-size:13px">代理时间:</span><mu-date-picker v-model="editDialog.model.date" hintText="请选择"/>
+						<span style="font-size:13px">代理时间:</span><mu-date-picker v-model="editDialog.model.date" :minDate="editDialog.model.minDate" hintText="请选择"/>
+					</div>
+					<div class="choose">
+						<span>撤销代理商:</span>
+						<mu-radio label="是" 
+						name="group" 
+						nativeValue="1" 
+						v-model="editDialog.value" 
+						class="demo-radio"
+						:labelClass="['labelClass']"
+						/>
+						<mu-radio label="否" 
+						name="group" 
+						nativeValue="0" 
+						v-model="editDialog.value" 
+						class="demo-radio"
+						:labelClass="['labelClass']"
+						/>	
 					</div>
 				</div>
 			</div>
@@ -219,7 +246,7 @@
 		padding: 5% 10%;
 	}
 	header .header{
-		margin: 5px 20px 0 0;
+		margin: 18px 20px 0 0;
 	}
 	header p{
 		margin-bottom: 10px;
@@ -246,5 +273,20 @@
 		/*background: red;*/
 		text-align: center;
 		color: #fff;
+	}
+
+
+	.choose{
+		display: flex;
+  		align-items: center;
+  		justify-content: center;
+  		margin: 7% 0;
+  		color: #000;
+	}
+	.choose span{
+		margin-right: 10px;
+	}
+	.demo-radio{
+		padding-right: 3%;
 	}
 </style>

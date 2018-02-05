@@ -46,7 +46,6 @@
 	#login{
 		width: 100%;
 		height: 100%;
-		background-image: url(../../../static/login.jpg);
 		background-size: cover;
 	}
     .loginContainer{
@@ -54,9 +53,7 @@
     	top: 20%;
     	padding: 5%;
     }
-    .text_center{
-    	color: #fff;
-    }
+    
 	.other_link_div{
 		margin-top: 10px;
 		display: flex;

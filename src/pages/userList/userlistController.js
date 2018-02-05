@@ -9,6 +9,7 @@ export default {
 				show: false,
 				show1:false
 			},
+			loadHeight: 0,
 			height: 0,
 			current: 1,  //当前页码
 			pageSize: 10,   //每次请求的数据条数
@@ -23,7 +24,7 @@ export default {
 			},
 			editDialog: {
 				show: false,
-				value: '1',
+				value: '0',
 				model: {
 					id: '',
 					nickName: '',
@@ -261,7 +262,6 @@ export default {
 							//that.loadData();
 							setTimeout(()=>{
 								that.loadData();
-								console.log(666)
 							},2000)
 							that.$nextTick(()=>{
 								that.Scroll.finishPullUp();
@@ -309,10 +309,15 @@ export default {
 		
 		// 监听窗口改变重置高度
         window.addEventListener('resize', () => {
-            this.height = (window.innerHeight-112) + 'px';
+            this.height = (window.innerHeight-142) + 'px';
         })
         
        //调用滚动插件初始化数据
-       this._initScroll()
+	   this._initScroll()
+	   
+		// 是否显示加载更多
+		//this.loadHeight = document.querySelector('.content').offsetHeight;
+	   console.log(document.querySelector('.content').offsetHeight)
+	   console.log(this.height)
 	}
 }

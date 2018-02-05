@@ -25,6 +25,7 @@ export default {
 			},
 			editDialog: {
 				show: false,
+				value: '0',
 				model: {
 					id: '',
 					nickName: '',
@@ -32,7 +33,9 @@ export default {
 					date: '',
 					phone: '',
 					grade: '',
-					pictureAddress: ''
+					pictureAddress: '',
+					expireDate: '',
+					minDate: ''
 				}, 
 			},
 
@@ -54,6 +57,7 @@ export default {
 	},
 	created() {
 		this.height = (window.innerHeight -142) + 'px';
+		this.editDialog.model.minDate = new Date()
 	},
 	methods:{
 		//按时间排序
@@ -176,36 +180,61 @@ export default {
 				nickName: user.nickname,
 				phone: user.phone,
 				level: user.proxyLevel,
-				pictureAddress: user.pictureAddress
+				pictureAddress: user.pictureAddress,
+				expireDate: this.transTime(user.expireDate)
 			})
 		},
 		
 		//点击弹出框确认按钮
 		editSubmit() {
 			this.editDialog.show = false
-			if(!this.editDialog.model.grade&&!this.editDialog.model.date){
-				this.$toast('您还没填写内容')
-				return
-			}
-			Axios.post('user/update',{
-				id: this.editDialog.model.id,
-				proxyLevel: this.editDialog.model.grade,
-				expireDate: (new Date(this.editDialog.model.date)).getTime()
-			}).then(res=>{
-				if(res.data.code == 0){
+			//  if(!this.editDialog.model.grade&&!this.editDialog.model.date){
+			//  	this.$toast('操作失败，你还没有填写信息')
+			//  	return
+			//  }
+			
+			if(this.editDialog.value == 1){
+				console.log(this.editDialog.value)
+				Axios.post('admin/proxyToUser',{
+					id: this.editDialog.model.id
+				}).then(res=>{
+					this.searchModel = ''
+					this.$toast('操作成功')
 					Axios.post('admin/selectUsersList',{
-						type: 1,
+						type: 0,
 						current: this.current,
 						pageSize: this.pageSize,
 						orderBy: 'nickname'
 					}).then(res=>{
 						this.userList = JSON.parse(res.data.data);
 					})
-					this.editDialog.model.grade = ''
-					this.editDialog.model.date = ''
-					this.$toast('操作成功')
-				}
-			})
+				})
+			}
+
+
+			if(this.editDialog.model.grade||this.editDialog.model.date){
+				console.log(11)
+				Axios.post('user/update',{
+					id: this.editDialog.model.id,
+					proxyLevel: this.editDialog.model.grade,
+					expireDate: (new Date(this.editDialog.model.date)).getTime()
+				}).then(res=>{
+					if(res.data.code == 0){
+						Axios.post('admin/selectUsersList',{
+							type: 1,
+							current: this.current,
+							pageSize: this.pageSize,
+							orderBy: 'nickname'
+						}).then(res=>{
+							this.userList = JSON.parse(res.data.data);
+						})
+						this.editDialog.model.grade = ''
+						this.editDialog.model.date = ''
+						this.$toast('操作成功')
+					}
+				})
+			}
+			
 		
 		},
 		
@@ -289,11 +318,19 @@ export default {
 				this.loadingMore = '网络异常'
 				console.log(err)
 			})
-		}
+		},
+		//转换时间戳成年月日
+		transTime(val){
+			var time = new Date(val);
+			var year = time.getFullYear();
+			var month = time.getMonth() > 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1);
+			var day = time.getDate() > 10 ? time.getDate() : '0' + time.getDate();
+			return (year + "-" + month + "-" + day);
+		  },
 	
 	},
 	mounted() {
-		
+		this.editDialog.model.minDate = new Date()
 
 		// 监听窗口改变重置高度
         window.addEventListener('resize', () => {

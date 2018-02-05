@@ -41,7 +41,8 @@
 			<div class="userList" ref="userList" :style="{height: height}">
 				<mu-list style="padding: 0">
 					<mu-list-item
-					v-for="user, index in userList"
+					v-if="userList.length>0"
+					v-for="(user, index) in userList"
 					:key="index"
 					style="border-bottom:1px solid #fafafa"
 					:title="user.nickname +' ('+ user.phone +')'"
@@ -56,6 +57,10 @@
 					  color="#2196f3"
 				      @click.stop="openDialog(user)"/>
 				    </mu-list-item>
+					<mu-content-block
+				    v-if="userList.length <= 0">
+				    	您暂无用户哟，赶紧去加一个吧
+				    </mu-content-block>
 				<span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
 				    
 				</mu-list>

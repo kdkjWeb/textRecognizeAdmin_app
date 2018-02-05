@@ -35,7 +35,10 @@ export default {
 				password: this.password
 			}).then(res=>{
 				//console.log(res)
-				console.log(res.data.data.type)
+				//console.log(res.data.data.type)
+				if(res.data.code == 500){
+					this.$toast('用户名或密码错误，请重新登录!')
+				}
 				if(res.data.data.type == 2){
 					//存入localStorage
 					setItem({
@@ -49,7 +52,7 @@ export default {
 					})
 				
 				}else{
-					this.$toast('你没有登录权限')
+					this.$toast('你没有登录权限!')
 				}
 					
 			},err=>{
