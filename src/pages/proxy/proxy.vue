@@ -60,7 +60,7 @@
 				    v-if="userList.length <= 0">
 				    	您暂无代理商哟，赶紧去加一个吧
 				    </mu-content-block>
-				    <span class="loadingMore" v-text="loadingMore" v-show="isLoading"></span>
+				    <span class="loadingMore" v-text="loadingMore" v-show="current>1"></span>
 				</mu-list>	
 				
 			</div>

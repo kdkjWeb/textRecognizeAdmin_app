@@ -144,7 +144,7 @@ export default {
 				orderBy: 'nickname',
 				keyWord: this.searchModel
 			}).then(res=>{
-				this.isLoading = false
+				
 				if(res.data.code == 500){
 					this.userList = []
 					this.$toast('找不到此用户')

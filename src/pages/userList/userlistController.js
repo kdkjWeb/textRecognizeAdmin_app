@@ -15,7 +15,6 @@ export default {
 			pageSize: 10,   //每次请求的数据条数
 			loadingMore:'加载更多',
 			searchModel: '',   //收索框内容
-			isLoading: true,
 			//所查询到的用户列表
 			userList: [],
 			proxyUser: {
@@ -53,7 +52,7 @@ export default {
 		}
 	},
 	created() {
-		this.height = (window.innerHeight-112) + 'px';
+		this.height = (window.innerHeight-142) + 'px';
 	},
 	methods:{
 		
@@ -148,7 +147,6 @@ export default {
 				orderBy: 'nickname',
 				keyWord: this.searchModel
 			}).then(res=>{
-				this.isLoading = false
 				if(res.data.code == 500){
 					this.userList = []
 					this.$toast('找不到此用户')
@@ -315,9 +313,6 @@ export default {
        //调用滚动插件初始化数据
 	   this._initScroll()
 	   
-		// 是否显示加载更多
-		//this.loadHeight = document.querySelector('.content').offsetHeight;
-	   console.log(document.querySelector('.content').offsetHeight)
-	   console.log(this.height)
+
 	}
 }
