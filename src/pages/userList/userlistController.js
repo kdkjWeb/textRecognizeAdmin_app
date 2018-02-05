@@ -312,7 +312,8 @@ export default {
         
        //调用滚动插件初始化数据
 	   this._initScroll()
-	   
-
+	},
+	created(){
+		this._initScroll()
 	}
 }
