@@ -184,14 +184,17 @@ export default {
 				}).then(res=>{
 					this.searchModel = ''
 					this.$toast('操作成功')
-					Axios.post('admin/selectUsersList',{
+					if(res.data.code == 0){
+						this._initScroll()
+					}
+					/*Axios.post('admin/selectUsersList',{
 						type: 0,
 						current: this.current,
 						pageSize: this.pageSize,
 						orderBy: 'nickname'
 					}).then(res=>{
 						this.userList = JSON.parse(res.data.data);
-					})
+					})*/
 				})
 			}
 			
@@ -246,35 +249,41 @@ export default {
 				pageSize: this.pageSize,
 				orderBy: 'nickname'
 			}).then(res=>{
-				this.userList = JSON.parse(res.data.data);
-				this.$nextTick(()=>{
-					if(!this.Scroll){
-						this.Scroll = new scroll(this.$refs['userList'],{
-							click: true,
-							scrollY: true,
-							pullUpLoad: {
-								threshold: -70
-							}
-						})
-						this.Scroll.on("pullingUp",()=>{
-							//that.loadData();
-							setTimeout(()=>{
-								that.loadData();
-							},2000)
-							that.$nextTick(()=>{
-								that.Scroll.finishPullUp();
-								that.Scroll.refresh();
+				if(res.data.code == 0){
+					this.userList = JSON.parse(res.data.data);
+					this.$nextTick(()=>{
+						if(!this.Scroll){
+							this.Scroll = new scroll(this.$refs['userList'],{
+								click: true,
+								scrollY: true,
+								pullUpLoad: {
+									threshold: -70
+								}
 							})
-						})
-						this.Scroll.on("pullingDown",()=>{
-							this.current--
-						})
-						
-					}
-				})
+							this.Scroll.on("pullingUp",()=>{
+								//that.loadData();
+								setTimeout(()=>{
+									that.loadData();
+								},2000)
+								that.$nextTick(()=>{
+									that.Scroll.finishPullUp();
+									that.Scroll.refresh();
+								})
+							})
+							this.Scroll.on("pullingDown",()=>{
+								this.current--
+							})
+							
+						}
+					})
+				}else if(res.data.msg == '没有更多的消息'){
+					this.userList =[]
+				}
+				
+				
 			}).catch(err=>{
 				this.isLoading = false,
-				this.$toast('网络异常')
+				this.$toast('暂无普通用户')
 			})
 		},
 		
@@ -313,7 +322,7 @@ export default {
        //调用滚动插件初始化数据
 	   this._initScroll()
 	},
-	created(){
-		this._initScroll()
-	}
+	// created(){
+	// 	this._initScroll()
+	// }
 }

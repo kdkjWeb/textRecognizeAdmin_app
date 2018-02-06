@@ -194,20 +194,24 @@ export default {
 			//  }
 			
 			if(this.editDialog.value == 1){
-				console.log(this.editDialog.value)
 				Axios.post('admin/proxyToUser',{
 					id: this.editDialog.model.id
 				}).then(res=>{
+					console.log(res.data.code)
 					this.searchModel = ''
 					this.$toast('操作成功')
-					Axios.post('admin/selectUsersList',{
+					if(res.data.code == 0){
+						console.log(666)
+						this._initScroll();
+					}
+					/*Axios.post('admin/selectUsersList',{
 						type: 0,
 						current: this.current,
 						pageSize: this.pageSize,
 						orderBy: 'nickname'
 					}).then(res=>{
 						this.userList = JSON.parse(res.data.data);
-					})
+					})*/
 				})
 			}
 
@@ -220,17 +224,20 @@ export default {
 					expireDate: (new Date(this.editDialog.model.date)).getTime()
 				}).then(res=>{
 					if(res.data.code == 0){
-						Axios.post('admin/selectUsersList',{
+					
+						/*Axios.post('admin/selectUsersList',{
 							type: 1,
 							current: this.current,
 							pageSize: this.pageSize,
 							orderBy: 'nickname'
 						}).then(res=>{
 							this.userList = JSON.parse(res.data.data);
-						})
+							console.log(6666)
+						})*/
 						this.editDialog.model.grade = ''
 						this.editDialog.model.date = ''
 						this.$toast('操作成功')
+						this._initScroll();
 					}
 				})
 			}
@@ -264,36 +271,42 @@ export default {
 				pageSize: this.pageSize,
 				orderBy: 'nickname'
 			}).then(res=>{
-				this.userList = JSON.parse(res.data.data);
-				this.$nextTick(()=>{
-					if(!this.Scroll){
-						this.Scroll = new scroll(this.$refs['userList'],{
-							click: true,
-							scrollY: true,
-							pullUpLoad: {
-								threshold: -70
-							}
-						})
-						this.Scroll.on("pullingUp",()=>{
-							//that.loadData();
-							setTimeout(()=>{
-								that.loadData();
-								console.log(666)
-							},2000)
-							that.$nextTick(()=>{
-								that.Scroll.finishPullUp();
-								that.Scroll.refresh();
+				if(res.data.code == 0){
+					this.userList = JSON.parse(res.data.data);
+					this.$nextTick(()=>{
+						if(!this.Scroll){
+							this.Scroll = new scroll(this.$refs['userList'],{
+								click: true,
+								scrollY: true,
+								pullUpLoad: {
+									threshold: -70
+								}
 							})
-						})
-						this.Scroll.on("pullingDown",()=>{
-							this.current--
-						})
-						
-					}
-				})
+							this.Scroll.on("pullingUp",()=>{
+								//that.loadData();
+								setTimeout(()=>{
+									that.loadData();
+									console.log(666)
+								},2000)
+								that.$nextTick(()=>{
+									that.Scroll.finishPullUp();
+									that.Scroll.refresh();
+								})
+							})
+							this.Scroll.on("pullingDown",()=>{
+								this.current--
+							})
+							
+						}
+					})
+				}else if(res.data.msg == '没有更多的消息'){
+					this.userList = []
+				}
+				
+				
 			}).catch(err=>{
 				this.isLoading = false,
-				this.$toast('网络异常')
+				this.$toast('暂无代理商')
 			})
 		},
 		
@@ -339,8 +352,5 @@ export default {
         
         //调用滚动插件初始化数据
        this._initScroll();
-	},
-	created(){
-		this._initScroll();
 	}
 }
