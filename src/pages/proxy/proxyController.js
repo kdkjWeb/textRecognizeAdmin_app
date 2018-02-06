@@ -337,7 +337,7 @@ export default {
 			var time = new Date(val);
 			var year = time.getFullYear();
 			var month = time.getMonth() > 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1);
-			var day = time.getDate() > 10 ? time.getDate() : '0' + time.getDate();
+			var day = time.getDate() > 10 ? (time.getDate() + 1) : '0' + (time.getDate() + 1);
 			return (year + "-" + month + "-" + day);
 		  },
 	
