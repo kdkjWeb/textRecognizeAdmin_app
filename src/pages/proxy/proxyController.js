@@ -188,11 +188,6 @@ export default {
 		//点击弹出框确认按钮
 		editSubmit() {
 			this.editDialog.show = false
-			//  if(!this.editDialog.model.grade&&!this.editDialog.model.date){
-			//  	this.$toast('操作失败，你还没有填写信息')
-			//  	return
-			//  }
-			
 			if(this.editDialog.value == 1){
 				Axios.post('admin/proxyToUser',{
 					id: this.editDialog.model.id
@@ -204,14 +199,6 @@ export default {
 						console.log(666)
 						this._initScroll();
 					}
-					/*Axios.post('admin/selectUsersList',{
-						type: 0,
-						current: this.current,
-						pageSize: this.pageSize,
-						orderBy: 'nickname'
-					}).then(res=>{
-						this.userList = JSON.parse(res.data.data);
-					})*/
 				})
 			}
 
@@ -224,16 +211,7 @@ export default {
 					expireDate: (new Date(this.editDialog.model.date)).getTime()
 				}).then(res=>{
 					if(res.data.code == 0){
-					
-						/*Axios.post('admin/selectUsersList',{
-							type: 1,
-							current: this.current,
-							pageSize: this.pageSize,
-							orderBy: 'nickname'
-						}).then(res=>{
-							this.userList = JSON.parse(res.data.data);
-							console.log(6666)
-						})*/
+			
 						this.editDialog.model.grade = ''
 						this.editDialog.model.date = ''
 						this.$toast('操作成功')
@@ -337,7 +315,7 @@ export default {
 			var time = new Date(val);
 			var year = time.getFullYear();
 			var month = time.getMonth() > 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1);
-			var day = time.getDate() > 10 ? (time.getDate() + 1) : '0' + (time.getDate() + 1);
+			var day = time.getDate() > 10 ? time.getDate() : '0' + time.getDate();
 			return (year + "-" + month + "-" + day);
 		  },
 	
@@ -351,6 +329,6 @@ export default {
         })
         
         //调用滚动插件初始化数据
-       this._initScroll();
+	   this._initScroll();
 	}
 }

@@ -8,7 +8,6 @@ export default {
 		}
 	},
 	created(){
-	
 		if(getItem('token')){
 			Axios.get('tokenLogin',{
 				token: getItem('token')

@@ -96,7 +96,7 @@
 					</p>
 					<p>
 						<span>到期:</span>
-						<span v-text="editDialog.model.expireDate"></span>
+						<span v-text="editDialog.model.expireDate.startsWith('N')?'暂未设置时间':editDialog.model.expireDate"></span>
 					</p>
 				</div>
 			</header>
