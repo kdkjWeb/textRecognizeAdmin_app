@@ -1,17 +1,32 @@
 //import services from './userlistServices'
 import Axios from '@/server/index'
-import scroll from 'better-scroll'
+//import scroll from 'better-scroll'
+import{
+	DEVICE_RATIO,
+	DOWN_CONFIG,
+	UP_CONFIG
+} from './userApi.js'
+
+import Scroller from '@/components/scroller.vue'
+import Loading from '@/components/loading.vue'
+
 export default {
 	data() {
 		return {
+			searchText:"",
+            inSearching:false,
+            page:1,
+	    	DEVICE_RATIO,
+			DOWN_CONFIG,
+			UP_CONFIG,
 			//改变箭头的状态
 			ActShow:{
 				show: false,
 				show1:false
 			},
-			loadHeight: 0,
+			//loadHeight: 0,
 			height: 0,
-			current: 1,  //当前页码
+			//current: 1,  //当前页码
 			pageSize: 10,   //每次请求的数据条数
 			loadingMore:'加载更多',
 			searchModel: '',   //收索框内容
@@ -50,6 +65,10 @@ export default {
 				},
 			] 
 		}
+	},
+	components:{
+		Scroller,
+		Loading
 	},
 	created() {
 		this.height = (window.innerHeight-142) + 'px';
@@ -240,76 +259,60 @@ export default {
 			
 		},
 		
-		//初始化滚动插件
-		_initScroll(){
-			let that = this;
+
+		pullUpHandle(val){      
+			this.fetchData((res)=>{
+				this.scrollElement.PullingUpWord="加载完成";
+				setTimeout(()=>{                        
+					this.scrollElement.finish("PullUp");
+					this.userList=this.userList.concat(res.data.data);  
+				},1000)       
+			 })   	
+		 },
+		 pullDownHandle(val){         
+			 setTimeout(()=>{
+				 this.scrollElement.finish("PullDown");
+				 var l=this.userList.length;
+				 var random=Math.floor(Math.random()*l);
+				 this.userList.unshift(this.userList[random]);
+			 },2000)   		
+		 },
+
+		 filterDirectors(arr){
+			 var name="";         
+			 arr.forEach((item,i)=>{
+				 if(i==arr.length-1){
+					name+=item.name
+				 }else{
+					name+=item.name+" / "
+				 }               
+			 })
+			 return name                         
+		 },
+
+		 fetchData(callback){
 			Axios.post('admin/selectUsersList',{
 				type: 0,
-				current: this.current,
+				current: this.page,
 				pageSize: this.pageSize,
 				orderBy: 'nickname'
 			}).then(res=>{
 				if(res.data.code == 0){
-					this.userList = JSON.parse(res.data.data);
-					this.$nextTick(()=>{
-						if(!this.Scroll){
-							this.Scroll = new scroll(this.$refs['userList'],{
-								click: true,
-								scrollY: true,
-								pullUpLoad: {
-									threshold: -70
-								}
-							})
-							this.Scroll.on("pullingUp",()=>{
-								//that.loadData();
-								setTimeout(()=>{
-									that.loadData();
-								},2000)
-								that.$nextTick(()=>{
-									that.Scroll.finishPullUp();
-									that.Scroll.refresh();
-								})
-							})
-							this.Scroll.on("pullingDown",()=>{
-								this.current--
-							})
-							
-						}
-					})
-				}else if(res.data.msg == '没有更多的消息'){
-					this.userList =[]
+					let userMore = JSON.parse(res.data.data);
+					this.userList.push.apply(this.userList,userMore)			
 				}
-				
-				
-			}).catch(err=>{
-				this.isLoading = false,
-				this.$toast('暂无普通用户')
-			})
-		},
-		
-		//给页面添加数据
-		loadData(){
-			Axios.post('admin/selectUsersList',{
-				type: 0,
-				current: this.current++,
-				pageSize: this.pageSize,
-				orderBy: 'nickname'
-			}).then(res=>{
-				if(res.data.code == 0){
-				let userMore = JSON.parse(res.data.data);
-				this.userList.push.apply(this.userList,userMore)			
-				}else if(res.data.code == 500){
-					this.isLoading = true,
-					this.loadingMore = '没有更多数据了'
-					this.$toast(res.data.msg)
+				if(res.data.data.length>0&&this.page>1){
+					callback&&callback(res);
+				}else{
+					alert("没有数据");
 				}
-			}).catch(err=>{
-				this.isLoading = true,
-				this.loadingMore = '网络异常'
-				console.log(err)
-			})
-		}
-		
+				this.inSearching=false;
+                this.page++;
+			}).catch(()=>{
+				this.inSearching=false; 
+				alert("error");
+		   })
+        }
 		
 	},
 	mounted() {
@@ -317,12 +320,16 @@ export default {
 		// 监听窗口改变重置高度
         window.addEventListener('resize', () => {
             this.height = (window.innerHeight-142) + 'px';
-        })
-        
-       //调用滚动插件初始化数据
-	   this._initScroll()
+		})
+		
+
+		this.fetchData()
 	},
-	// created(){
-	// 	this._initScroll()
-	// }
+	 
+
+	computed:{
+        scrollElement(){
+            return this.$refs.scroll
+        }
+    },
 }
